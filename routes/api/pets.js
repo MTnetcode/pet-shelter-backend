@@ -17,7 +17,6 @@ router.get("/", (req, res) => {
 
 router.get("/:category", (req, res) => {
   const { category } = req.params;
-  console.log(category);
   if (category !== "dogs" && category !== "cats") {
     res.json({ err: "category which you have specified is not valid" });
   } else {
