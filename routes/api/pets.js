@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const Pets = require("../../models/Pets.js");
+let upload = multer({
+  dest: "/Users/tomasstorc/dev/pet-shelter-backend/public/images/",
+});
 
 router.get("/", (req, res) => {
   Pets.find({}, (err, foundPets) => {
@@ -33,8 +37,9 @@ router.get("/:category", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
-  const { name, text, img, category } = req.body;
+router.post("/", upload.single("img"), (req, res) => {
+  const { name, text, category } = req.body;
+  const img = `http://petshelter-api.mtnetcode.com/images/${req.file.filename}`;
   const newPet = new Pets({ name, text, img, category });
   newPet
     .save()
