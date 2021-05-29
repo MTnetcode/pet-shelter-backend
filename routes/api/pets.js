@@ -34,7 +34,6 @@ router.get("/:category", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body);
   const { name, text, img, category } = req.body;
   const newPet = new Pets({ name, text, img, category });
   newPet
