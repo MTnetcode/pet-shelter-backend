@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const Pets = require("../../models/Pets.js");
 let upload = multer({
-  dest: "/Users/tomasstorc/dev/pet-shelter-backend/public/images/",
+  dest: "public/images",
 });
 
 router.get("/", (req, res) => {
