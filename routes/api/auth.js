@@ -13,12 +13,22 @@ router.post("/login", (req, res) => {
       if (!foundUser) {
         res.json({ msg: "No user with specified username" });
       } else {
-        const payload = {
-          _id: foundUser._id,
-          username: foundUser.username,
-        };
-        const token = jwt.sign(payload, process.env.JWT_SECRET);
-        res.json({ token });
+        bcrypt.compare(password, foundUser.password, (err, isMatch) => {
+          if (err) {
+            res.json({ err });
+          } else {
+            if (!isMatch) {
+              res, json({ msg: "incorrect password, please try again" });
+            } else {
+              const payload = {
+                _id: foundUser._id,
+                username: foundUser.username,
+              };
+              const token = jwt.sign(payload, process.env.JWT_SECRET);
+              res.json({ token });
+            }
+          }
+        });
       }
     }
   });
