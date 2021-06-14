@@ -24,6 +24,9 @@ mongoose
 const petsApiRoute = require("./routes/api/pets.js");
 app.use("/api/pets", petsApiRoute);
 
+const authRoute = require("./routes/api/auth.js");
+app.use("/api/auth", authRoute);
+
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);
