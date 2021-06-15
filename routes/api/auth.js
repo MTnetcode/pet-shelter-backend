@@ -3,9 +3,11 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../../models/Users.js");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const upload = multer();
 require("dotenv").config();
 
-router.post("/login", (req, res) => {
+router.post("/login", upload.none(), (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
@@ -38,7 +40,6 @@ router.post("/login", (req, res) => {
 
 router.post("/register", (req, res) => {
   const { username, password, role } = req.body;
-  console.log(req.body);
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
       res.json({ err });

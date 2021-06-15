@@ -64,6 +64,7 @@ router.get("/:category", (req, res) => {
 
 router.post("/", upload.single("img"), (req, res) => {
   const { name, text, category } = req.body;
+  console.log(req.body);
   const img = `http://petshelter-api.mtnetcode.com/images/${req.file.filename}`;
   const newPet = new Pets({ name, text, category, img });
   newPet
