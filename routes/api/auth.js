@@ -7,6 +7,29 @@ const multer = require("multer");
 const upload = multer();
 require("dotenv").config();
 
+const protectRegister = (req, res, next) => {
+  if (!req.headers.authorization) {
+    res.json({ err: "no authorization header was send" });
+  } else {
+    const token = req.headers.authorization.split(" ")[1];
+    if (token === null) {
+      res.json({ err: "authorization header was sent but no token provided" });
+    } else {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          res.json({ err: "invalid token" });
+        } else {
+          if (!decoded) {
+            res.json({ err: "token could not be decoded" });
+          } else {
+            console.log(decoded);
+          }
+        }
+      });
+    }
+  }
+};
+
 router.post("/login", upload.none(), (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username }, (err, foundUser) => {
@@ -38,7 +61,7 @@ router.post("/login", upload.none(), (req, res) => {
   });
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", protectRegister, (req, res) => {
   const { username, password, role } = req.body;
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
