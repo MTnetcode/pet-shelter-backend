@@ -22,7 +22,11 @@ const protectRegister = (req, res, next) => {
           if (!decoded) {
             res.json({ err: "token could not be decoded" });
           } else {
-            next();
+            if (decoded.role == "superadmin") {
+              next();
+            } else {
+              res.json({ err: "authorization failed" });
+            }
           }
         }
       });
@@ -71,7 +75,6 @@ router.post("/register", protectRegister, (req, res) => {
         res.json({ err: "User with given username already exists" });
       } else {
         bcrypt.hash(password, 10, (err, hashedPassword) => {
-          console.log(err);
           if (err) {
             res.json({ err: "something went wrong" });
           } else {
