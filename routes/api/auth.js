@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const upload = multer();
 require("dotenv").config();
-console.log(require("./pets"));
 
 const protectRegister = (req, res, next) => {
   if (!req.headers.authorization) {

@@ -4,7 +4,7 @@ const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const Pets = require("../../models/Pets.js");
 
-const protectPostRoute = (req, res, next) => {
+const protectRoute = (req, res, next) => {
   if (!req.headers.authorization) {
     res.json({ err: "no authorization header was send" });
   } else {
@@ -62,7 +62,7 @@ router.get("/:category", (req, res) => {
   }
 });
 
-router.post("/", protectPostRoute, upload.single("img"), (req, res) => {
+router.post("/", protectRoute, upload.single("img"), (req, res) => {
   const { name, text, category } = req.body;
   const img = `http://petshelter-api.mtnetcode.com/images/${req.file.filename}`;
   const newPet = new Pets({ name, text, category, img });
@@ -74,6 +74,19 @@ router.post("/", protectPostRoute, upload.single("img"), (req, res) => {
     .catch((err) => {
       res.json({ err });
     });
+});
+
+router.delete("/:id", protectRoute, (req, res) => {
+  const { id } = req.params;
+  if (id !== undefined) {
+    Pets.findByIdAndDelete(id, (err, deleted) => {
+      if (err)
+        res.json({ err: "could not delete post, specified id does not exist" });
+      res.json({ msg: "successfully deleted post" });
+    });
+  } else {
+    res.json({ err: "no id provided" });
+  }
 });
 
 module.exports = router;
