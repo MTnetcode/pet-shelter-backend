@@ -80,9 +80,11 @@ router.delete("/:id", protectRoute, (req, res) => {
   const { id } = req.params;
   if (id !== undefined) {
     Pets.findByIdAndDelete(id, (err, deleted) => {
-      if (err)
+      if (err) {
         res.json({ err: "could not delete post, specified id does not exist" });
-      res.json({ msg: "successfully deleted post" });
+      } else {
+        res.json({ msg: "successfully deleted post" });
+      }
     });
   } else {
     res.json({ err: "no id provided" });
