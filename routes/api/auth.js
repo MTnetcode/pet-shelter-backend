@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const upload = multer();
 require("dotenv").config();
+console.log(require("./pets"));
 
 const protectRegister = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -27,6 +28,29 @@ const protectRegister = (req, res, next) => {
             } else {
               res.json({ err: "authorization failed" });
             }
+          }
+        }
+      });
+    }
+  }
+};
+
+const verifyToken = (req, res, next) => {
+  if (!req.headers.authorization) {
+    res.json({ err: "no authorization header was send" });
+  } else {
+    const token = req.headers.authorization.split(" ")[1];
+    if (token === null) {
+      res.json({ err: "authorization header was sent but no token provided" });
+    } else {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+          res.json({ err: "invalid token" });
+        } else {
+          if (!decoded) {
+            res.json({ err: "token could not be decoded" });
+          } else {
+            next();
           }
         }
       });
@@ -99,6 +123,10 @@ router.post("/register", protectRegister, (req, res) => {
       }
     }
   });
+});
+
+router.post("/verify", verifyToken, (req, res) => {
+  res.json({ msg: "token ok" });
 });
 
 module.exports = router;
