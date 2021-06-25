@@ -22,7 +22,11 @@ const protectRegister = (req, res, next) => {
           if (!decoded) {
             res.json({ err: "token could not be decoded" });
           } else {
-            next();
+            if (decoded.role == "superadmin") {
+              next();
+            } else {
+              res.json({ err: "authorization failed" });
+            }
           }
         }
       });
