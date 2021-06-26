@@ -5,6 +5,13 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const Pets = require("../../models/Pets.js");
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @summary provides authentication check to post and delete routes, if user is authenticated go next
+ */
 const protectRoute = (req, res, next) => {
   if (!req.headers.authorization) {
     res.json({ err: "no authorization header was send" });
