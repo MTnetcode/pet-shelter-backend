@@ -24,6 +24,9 @@ mongoose
 const petsApiRoute = require("./routes/api/pets.js");
 app.use("/api/pets", petsApiRoute);
 
+const newsApiRoute = require("./routes/api/news.js");
+app.use("/api/news", newsApiRoute);
+
 const authRoute = require("./routes/api/auth.js");
 app.use("/api/auth", authRoute);
 

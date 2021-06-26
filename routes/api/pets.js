@@ -44,8 +44,8 @@ router.get("/", (req, res) => {
     if (err) {
       res.json({ err });
     }
-    if (!foundPets) {
-      res.json({ foundPets: "no pet found" });
+    if (foundPets.length < 1) {
+      res.json({ err: "no pet found" });
     } else {
       res.json({ foundPets });
     }
