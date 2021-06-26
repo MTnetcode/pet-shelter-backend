@@ -7,6 +7,13 @@ const multer = require("multer");
 const upload = multer();
 require("dotenv").config();
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @summary allow registration only for users with suoeradmin role
+ */
 const protectRegister = (req, res, next) => {
   if (!req.headers.authorization) {
     res.json({ err: "no authorization header was send" });
@@ -34,6 +41,13 @@ const protectRegister = (req, res, next) => {
   }
 };
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @summary verifies that token which user has is valid
+ */
 const verifyToken = (req, res, next) => {
   if (!req.headers.authorization) {
     res.json({ err: "no authorization header was send" });
