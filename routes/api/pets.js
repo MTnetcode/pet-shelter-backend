@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 const Pets = require("../../models/Pets.js");
 
 const protectRoute = (req, res, next) => {
@@ -84,6 +85,8 @@ router.delete("/:id", protectRoute, (req, res) => {
         res.json({ err: "could not delete post, specified id does not exist" });
       } else {
         res.json({ msg: "successfully deleted post" });
+        let fileName = deleted?.img.split("/").slice(-1)[0];
+        fs.unlinkSync(`public/images/${fileName}`);
       }
     });
   } else {
