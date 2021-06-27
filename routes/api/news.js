@@ -1,6 +1,8 @@
 const express = require("express");
 const News = require("../../models/News.js");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer();
 
 router.get("/", (req, res) => {
   News.find({}, (err, foundNews) => {
@@ -16,7 +18,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", upload.none(), (req, res) => {
   const { name, text } = req.body;
   const addNews = new News({
     name,
