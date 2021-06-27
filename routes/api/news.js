@@ -17,9 +17,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { title, text } = req.body;
+  const { name, text } = req.body;
   const addNews = new News({
-    title,
+    name,
     text,
   });
   addNews
