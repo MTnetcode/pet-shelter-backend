@@ -101,21 +101,24 @@ router.delete("/:id", protectRoute, (req, res) => {
   }
 });
 
-router.patch("", protectRoute, (req, res) => {
-  const {id, name, text} = req.body;
+router.patch("", protectRoute, upload.none(), (req, res) => {
+  const { id, name, text } = req.body;
   if (id !== undefined) {
-    Pets.findByIdAndUpdate(id, {
-      name, text
-    }, (err, updatedPet) => {
-      if (err) {
-        res.json({ err });
-      } else {
-        res.json({msg: `Pet updated`,
-      data: updatedPet
-      })
+    Pets.findByIdAndUpdate(
+      id,
+      {
+        name,
+        text,
+      },
+      (err, updatedPet) => {
+        if (err) {
+          res.json({ err });
+        } else {
+          res.json({ msg: `Pet updated`, data: updatedPet });
+        }
       }
-    })
+    );
   }
-})
+});
 
 module.exports = router;
