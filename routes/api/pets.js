@@ -101,7 +101,7 @@ router.delete("/:id", protectRoute, (req, res) => {
   }
 });
 
-router.patch("", protectRoute, (req, res) => {
+router.patch("/", protectRoute, (req, res) => {
   const { id, name, text } = req.body;
   if (id !== undefined) {
     Pets.findByIdAndUpdate(
