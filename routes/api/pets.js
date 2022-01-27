@@ -102,22 +102,15 @@ router.delete("/:id", protectRoute, (req, res) => {
 });
 
 router.patch("/", protectRoute, upload.none(), (req, res) => {
+  console.log(req);
   const { id, name, text } = req.body;
   if (id !== undefined) {
-    Pets.findByIdAndUpdate(
-      id,
-      {
-        name,
-        text,
-      },
-      (err, updatedPet) => {
-        if (err) {
-          res.json({ err });
-        } else {
-          res.json({ msg: `Pet updated`, data: updatedPet });
-        }
-      }
-    );
+    Pets.findByIdAndUpdate(id, {
+      name,
+      text,
+    })
+      .then((updated) => res.json({ msg: "successfully updated pet", updated }))
+      .catch((err) => res.json({ err }));
   }
 });
 
